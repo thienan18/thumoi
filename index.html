@@ -435,7 +435,7 @@
           <div class="avatar-container">
             <img src="avatar.jpg" alt="Avatar" class="avatar" />
           </div>
-          <div class="footer">Nhấp vào để xem thông tin chi tiết</div>
+          <div class="footer">Nhấn vào để xem thông tin chi tiết</div>
           <div class="heart-sticker heart1">🤍</div>
           <div class="heart-sticker heart2">🤍</div>
           <div class="heart-sticker heart3">🤍</div>
@@ -521,7 +521,9 @@
       card.addEventListener("click", () => {
         card.classList.toggle("flipped");
         flipSound.currentTime = 0;
-        flipSound.play();
+        if (flipSound.paused) {
+          flipSound.play().catch(error => console.log("Audio play failed:", error));
+        }
       });
     </script>
   </body>
