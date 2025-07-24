@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&Dancing+Script&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thiệp Mời Tốt Nghiệp</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #f5e9ff, #e9d9ff);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+        position: relative;
+      }
+
+      .card-container {
+        perspective: 1000px;
+        width: 100%;
+        max-width: 450px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 400px;
+        aspect-ratio: 2 / 3;
+        position: relative;
+        transform-style: preserve-3d;
+        cursor: pointer;
+        transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+          box-shadow 0.5s ease;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+      }
+
+      .card.flipped {
+        transform: rotateY(180deg) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .card .front,
+      .card .back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.95);
+        color: #4a0072;
+        text-align: center;
+      }
+
+      .card .back {
+        transform: rotateY(180deg);
+        background: #ffffff;
+        justify-content: space-between;
+        padding: 10px;
+      }
+
+      .invite-title-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+        animation: titleFloat 2s ease-in-out infinite;
+      }
+
+      .invite-subtitle {
+        font-size: clamp(18px, 5vw, 24px);
+        font-weight: normal;
+        background: linear-gradient(90deg, #4a0072, #8e2de2, #4a0072);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: gradientShift 3s ease-in-out infinite;
+      }
+
+      .invite-main-title {
+        font-size: clamp(30px, 8vw, 40px);
+        font-weight: bold;
+        background: linear-gradient(90deg, #4a0072, #8e2de2, #4a0072);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: gradientShift 3s ease-in-out infinite;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @keyframes titleFloat {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .avatar-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0;
+      }
+
+      .avatar {
+        width: clamp(150px, 40vw, 180px);
+        height: clamp(150px, 40vw, 180px);
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 0 0 4px #fff, 0 8px 16px rgba(0, 0, 0, 0.2);
+        transition: transform 0.5s ease;
+      }
+
+      .avatar:hover {
+        transform: scale(1.1);
+      }
+
+      .footer {
+        font-size: clamp(16px, 4vw, 20px);
+        margin-top: 10px;
+        font-style: italic;
+        color: #4a0072;
+      }
+
+      .heart-sticker {
+        position: absolute;
+        color: #ffffff;
+        font-size: 18px;
+        animation: float 4s infinite ease-in-out;
+        opacity: 0.8;
+      }
+
+      .heart1 {
+        top: 15px;
+        left: 25px;
+        animation-delay: 0s;
+      }
+
+      .heart2 {
+        top: 70px;
+        right: 30px;
+        animation-delay: 1s;
+      }
+
+      .heart3 {
+        bottom: 30px;
+        left: 50px;
+        animation-delay: 2s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) translateX(0) rotate(0deg);
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(-20px) translateX(10px) rotate(10deg);
+          opacity: 0.5;
+        }
+        100% {
+          transform: translateY(0) translateX(0) rotate(0deg);
+          opacity: 1;
+        }
+      }
+
+      .star {
+        position: fixed;
+        width: 5px;
+        height: 5px;
+        background: #fff;
+        border-radius: 50%;
+        opacity: 0.8;
+        box-shadow: 0 0 8px 2px #fff;
+        pointer-events: none;
+        animation-name: twinkle;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.2;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.5);
+        }
+      }
+
+      .back .message {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(20px, 5vw, 28px);
+        color: #6a1b9a;
+        margin: 10px auto;
+        max-width: 90%;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .back .month {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(12px, 2.5vw, 14px);
+        color: #4a0072;
+        text-align: right;
+        width: 100%;
+        margin-bottom: 5px;
+        line-height: 1.2;
+      }
+
+      .back .month::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        right: 0;
+        width: 20px;
+        height: 1px;
+        background: #4a0072;
+        animation: underlineFade 2s infinite ease-in-out;
+      }
+
+      @keyframes underlineFade {
+        0% {
+          width: 0;
+        }
+        50% {
+          width: 20px;
+        }
+        100% {
+          width: 0;
+        }
+      }
+
+      .back .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+        font-size: clamp(10px, 2vw, 12px);
+        color: #333;
+        width: 100%;
+        margin: 5px auto;
+      }
+
+      .back .calendar .day {
+        width: 100%;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Arial", sans-serif;
+      }
+
+      .back .calendar .day.highlight {
+        background: #e6e6fa;
+        color: #333;
+        border-radius: 50%;
+        font-weight: bold;
+      }
+
+      .back .calendar .day-header {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .back .details {
+        font-size: clamp(10px, 2vw, 12px);
+        color: #555;
+        text-align: center;
+        margin-top: 5px;
+        width: 100%;
+      }
+
+      .back .details div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+
+      .back .details div:hover {
+        transform: scale(1.05);
+        color: #4a0072;
+      }
+
+      .back .details div::before {
+        content: "";
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+
+      .back .details .date::before {
+        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>');
+      }
+
+      .back .details .time::before {
+        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>');
+      }
+
+      .back .details .location::before {
+        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>');
+      }
+
+      .back .details .contact::before {
+        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>');
+      }
+
+      @media (max-width: 480px) {
+        .card-container {
+          padding: 10px;
+        }
+        .card {
+          max-width: 90vw;
+          aspect-ratio: 2 / 3;
+        }
+        .invite-subtitle {
+          font-size: clamp(16px, 4.5vw, 20px);
+        }
+        .invite-main-title {
+          font-size: clamp(24px, 6.5vw, 30px);
+        }
+        .avatar {
+          width: clamp(120px, 35vw, 140px);
+          height: clamp(120px, 35vw, 140px);
+        }
+        .footer {
+          font-size: clamp(14px, 3.5vw, 18px);
+        }
+        .heart-sticker {
+          font-size: 16px;
+        }
+        .back .message {
+          font-size: clamp(18px, 4.5vw, 22px);
+        }
+        .back .calendar .day {
+          font-size: clamp(8px, 1.5vw, 10px);
+        }
+        .back .month {
+          font-size: clamp(10px, 2vw, 12px);
+        }
+        .back .details {
+          font-size: clamp(8px, 1.5vw, 10px);
+        }
+        .back .details div::before {
+          width: 10px;
+          height: 10px;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .card {
+          max-width: 420px;
+        }
+        .invite-subtitle {
+          font-size: clamp(18px, 2.5vw, 22px);
+        }
+        .invite-main-title {
+          font-size: clamp(32px, 4vw, 40px);
+        }
+        .avatar {
+          width: 200px;
+          height: 200px;
+        }
+        .back .message {
+          font-size: clamp(24px, 3vw, 28px);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card-container">
+      <div class="card" id="card">
+        <div class="front">
+          <div class="invite-title-container">
+            <div class="invite-subtitle">Thư mời tham dự</div>
+            <div class="invite-main-title">Lễ tốt nghiệp</div>
+          </div>
+          <div class="avatar-container">
+            <img src="1.jpg" alt="Avatar" class="avatar" />
+          </div>
+          <div class="footer">Nhấp vào để xem thông tin chi tiết</div>
+          <div class="heart-sticker heart1">🤍</div>
+          <div class="heart-sticker heart2">🤍</div>
+          <div class="heart-sticker heart3">🤍</div>
+        </div>
+        <div class="back">
+          <div class="message">
+            Thân mời bạn đến tham dự lễ tốt nghiệp của Thiên An
+          </div>
+          <div class="month">Tháng 8<br />August</div>
+          <div class="calendar">
+            <div class="day day-header">TH2</div>
+            <div class="day day-header">TH3</div>
+            <div class="day day-header">TH4</div>
+            <div class="day day-header">TH5</div>
+            <div class="day day-header">TH6</div>
+            <div class="day day-header">TH7</div>
+            <div class="day day-header">CN</div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day">4</div>
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day">7</div>
+            <div class="day highlight">8</div>
+            <div class="day">9</div>
+            <div class="day">10</div>
+            <div class="day">11</div>
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day">14</div>
+            <div class="day">15</div>
+            <div class="day">16</div>
+            <div class="day">17</div>
+            <div class="day">18</div>
+            <div class="day">19</div>
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day">22</div>
+            <div class="day">23</div>
+            <div class="day">24</div>
+            <div class="day">25</div>
+            <div class="day">26</div>
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day">29</div>
+            <div class="day">30</div>
+            <div class="day">31</div>
+          </div>
+          <div class="details">
+            <div class="date">Ngày 08, tháng 08, năm 2025</div>
+            <div class="time">Vào lúc 10H - 12H30</div>
+            <div class="location">Trường Đại học Hàng hải Việt Nam</div>
+            <div class="contact">SĐT: 0914596511</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <audio id="flipSound" src="open.mp3" preload="auto"></audio>
+
+    <script>
+      function createStars(num) {
+        for (let i = 0; i < num; i++) {
+          const star = document.createElement("div");
+          star.classList.add("star");
+          star.style.left = Math.random() * window.innerWidth + "px";
+          star.style.top = Math.random() * window.innerHeight + "px";
+          star.style.animationDuration = 2 + Math.random() * 3 + "s";
+          star.style.animationDelay = Math.random() * 5 + "s";
+          document.body.appendChild(star);
+        }
+      }
+      createStars(30);
+
+      const card = document.getElementById("card");
+      const flipSound = document.getElementById("flipSound");
+
+      card.addEventListener("click", () => {
+        card.classList.toggle("flipped");
+        flipSound.currentTime = 0;
+        flipSound.play();
+      });
+    </script>
+  </body>
+</html>
